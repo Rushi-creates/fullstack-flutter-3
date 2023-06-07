@@ -1,0 +1,16 @@
+//1. paste this in BASH terminal 
+flutter pub add shared_preferences flutter_bloc equatable http  && flutter pub get
+
+
+//2. Replace package name, with out current packagename
+Ctrl+shift+F
+
+
+//3. move images folder to root folder,
+// then add this script in pubspec , under flutter:
+'''
+  assets:
+    - images/
+'''
+
+// after apply above steps, delete this file
