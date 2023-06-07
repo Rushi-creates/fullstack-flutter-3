@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter5/MODULES/WIDGETS/loader_widget.dart';
-import 'package:flutter5/MODULES/WIDGETS/snackbar_widget.dart';
+import 'package:flutter5/MODULES/COMMON/WIDGETS/loader_widget.dart';
+import 'package:flutter5/MODULES/COMMON/WIDGETS/snackbar_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../sp_user/sp_user_logic/sp_user_bloc.dart';

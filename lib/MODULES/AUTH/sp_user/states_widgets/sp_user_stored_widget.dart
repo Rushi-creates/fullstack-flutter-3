@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter5/MODULES/WIDGETS/navigate_to_splash.dart';
+import 'package:flutter5/MODULES/COMMON/WIDGETS/navigate_to_splash.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../sp_user_logic/sp_user_bloc.dart';

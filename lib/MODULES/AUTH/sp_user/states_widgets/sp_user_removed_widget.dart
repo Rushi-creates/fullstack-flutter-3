@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter5/MODULES/WIDGETS/navigate_to_splash.dart';
+import 'package:flutter5/MODULES/COMMON/WIDGETS/navigate_to_splash.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../WIDGETS/snackbar_widget.dart';
+import '../../../COMMON/WIDGETS/snackbar_widget.dart';
 import '../sp_user_logic/sp_user_bloc.dart';
 
 class SpUserRemovedWidget extends StatelessWidget {

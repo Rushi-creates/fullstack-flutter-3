@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../SERIALIZERS/repositories/user_repo.dart';
 import '../AUTH/sp_user/sp_user_logic/sp_user_bloc.dart';
 import '../AUTH/sp_user/states_widgets/sp_user_stored_widget.dart';
-import '../WIDGETS/loader_widget.dart';
+import '../COMMON/WIDGETS/loader_widget.dart';
 import 'edit_profile_logic/edit_profile_bloc.dart';
 
 class CreateProfileScreen extends StatefulWidget {

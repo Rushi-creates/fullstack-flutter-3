@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../WIDGETS/textfield_widget.dart';
+import '../../../COMMON/WIDGETS/textfield_widget.dart';
 import '../logic/cubit/my_register_cubit.dart';
 
 class RegisterTextfieldWidget extends StatelessWidget {

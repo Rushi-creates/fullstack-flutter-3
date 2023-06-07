@@ -3,43 +3,40 @@ import 'package:flutter5/MODULES/COMMON/WIDGETS/loader_widget.dart';
 import 'package:flutter5/MODULES/COMMON/WIDGETS/snackbar_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'create_bloc.dart';
+import 'update_bloc.dart';
 
-class CreateButton_widget<T> extends StatelessWidget {
+class UpdateButton_widget<T> extends StatelessWidget {
   final Future<dynamic> Function() myAddFunc;
   final formKey;
   final buttonUi;
-  final dynamic Function()? onSuccess;
 
-  const CreateButton_widget(
-      {required this.myAddFunc, this.formKey, this.buttonUi, this.onSuccess});
+  const UpdateButton_widget(
+      {required this.myAddFunc, this.formKey, this.buttonUi});
+
   @override
   Widget build(BuildContext context) {
-    return saveButton_STATES();
+    return updateButton_STATES();
   }
 
 /* -------------------------------------------------------------------------- */
 /*                                 //@ States                                 */
 /* -------------------------------------------------------------------------- */
 
-  saveButton_STATES() {
-    return BlocConsumer<CreateBloc<T>, CreateState<T>>(
+  updateButton_STATES() {
+    return BlocConsumer<UpdateBloc<T>, UpdateState<T>>(
       listener: (context, state) {
-        if (state is CreateSuccess_State<T>) {
-          if (onSuccess == null) {
-            SnackBarWidget(context, 'Action completed');
-          } else {
-            onSuccess;
-          }
+        if (state is UpdateSuccess_State<T>) {
+          SnackBarWidget(context, 'Action completed');
+          // Navigator.pop(context);
         }
       },
       builder: (context, state) {
-        if (state is CreateLoading_State<T>) {
+        if (state is UpdateLoading_State<T>) {
           return customLoading();
-        } else if (state is CreateError_State<T>) {
-          return errorWidget(context, state.error);
+        } else if (state is UpdateError_State<T>) {
+          return errorWidget(context, state);
         }
-        return save_Button_ui(context);
+        return update_Button_ui(context);
       },
     );
   }
@@ -48,13 +45,13 @@ class CreateButton_widget<T> extends StatelessWidget {
 /*                                 //@ Widgets                                */
 /* -------------------------------------------------------------------------- */
 
-  save_Button_ui(context) {
+  update_Button_ui(context) {
     return GestureDetector(
-        onTap: () async => save_FUNC(context),
+        onTap: () async => update_FUNC(context),
         child: buttonUi == null
             ? TextButton(
                 child: Text(
-                  "Save",
+                  "Update",
                   style: TextStyle(color: Colors.white),
                 ),
                 style: TextButton.styleFrom(backgroundColor: Colors.deepPurple),
@@ -85,7 +82,7 @@ class CreateButton_widget<T> extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           Text('Error : ${state.error}'),
-          save_Button_ui(context),
+          update_Button_ui(context),
         ],
       ),
     );
@@ -95,13 +92,13 @@ class CreateButton_widget<T> extends StatelessWidget {
 /*                             //@ Functionalities                            */
 /* -------------------------------------------------------------------------- */
 
-  save_FUNC(context) {
+  update_FUNC(context) {
     if (formKey == null) {
-      BlocProvider.of<CreateBloc<T>>(context)
-          .add(Create_ButtonPressed_Event<T>(myAddFunc));
+      BlocProvider.of<UpdateBloc<T>>(context)
+          .add(Update_ButtonPressed_Event<T>(myAddFunc));
     } else if (formKey.currentState!.validate()) {
-      BlocProvider.of<CreateBloc<T>>(context)
-          .add(Create_ButtonPressed_Event<T>(myAddFunc));
+      BlocProvider.of<UpdateBloc<T>>(context)
+          .add(Update_ButtonPressed_Event<T>(myAddFunc));
     }
   }
 }
@@ -114,13 +111,14 @@ class CreateButton_widget<T> extends StatelessWidget {
 //! in main. dart
 // MultiBlocProvider(
 //       providers: [
-//         BlocProvider<CreateBloc<Post>>(create: (context) => CreateBloc<Post>()),
+//         BlocProvider<UpdateBloc<Post>>(update: (context) => UpdateBloc<Post>()),
 //       ])
 
 //! calling widget
   // myBody() {
   //   Post_api_repo post_api_repo = Post_api_repo();
   //   Post post = Post(
+  //       id : 15,
   //       title: 'jkadf',
   //       description: 'alkdjfa',
   //       salary_method: 'jkadf',
@@ -134,48 +132,9 @@ class CreateButton_widget<T> extends StatelessWidget {
   //       post_fk: 6);
 
   //   return SafeArea(
-  //     child: CreateButton_widget<Post>(
-  //       myAddFunc: () => post_api_repo.add_post(post),
-  //       //  formkey : formKey
+  //     child: UpdateButton_widget<Post>(
+  //       myAddFun: () => post_api_repo.update(post, post.id),
+  //      // formKey : formKey
   //     ),
-  //   );
-  // }
-
-
-  //! other example
-  
-  // structure() {
-  //   return Column(
-  //     children: [
-  //       const RegisterTextfieldWidget(),
-  //       CreateButton_widget<GRegisterButton>(
-  //         formKey:
-  //             BlocProvider.of<MyRegisterCubit>(context).state.createFormKey,
-  //         myAddFunc: () async {
-  //           User user = User(
-  //             email: BlocProvider.of<MyRegisterCubit>(context)
-  //                 .state
-  //                 .emailController
-  //                 .text,
-  //             password: BlocProvider.of<MyRegisterCubit>(context)
-  //                 .state
-  //                 .passwordController
-  //                 .text,
-  //             number: int.tryParse(BlocProvider.of<MyRegisterCubit>(context)
-  //                 .state
-  //                 .numberController
-  //                 .text),
-  //           );
-
-//   //@dont forget the return kw
-  //           return await UserRepo.instance.createUserRegister(user);
-  //         },
-  //         onSuccess: () {
-  //           debugPrint('onSuccess triggered');
-  //           return SnackBarWidget(context, 'From on success',
-  //               bgColor: Colors.orange);
-  //         },
-  //       )
-  //     ],
   //   );
   // }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter5/SERIALIZERS/models/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../WIDGETS/loader_widget.dart';
+import '../../../COMMON/WIDGETS/loader_widget.dart';
 import '../../sp_user/sp_user_logic/sp_user_bloc.dart';
 import '../logic/cubit/my_register_cubit.dart';
 import '../logic/register_button_logic/register_button_bloc.dart';
