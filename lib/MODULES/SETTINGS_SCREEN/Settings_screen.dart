@@ -1,21 +1,20 @@
-import 'package:flutter5/MODULES/COMMON/auth_session_manager_logic/auth_session_manager_bloc.dart';
-import 'package:flutter5/MODULES/COMMON/auth_session_manager_logic/auth_session_manager_removed_widget.dart';
+import 'package:flutter5/MODULES/AUTH/DELETE_ACCOUNT/delete_account_widget.dart';
+import 'package:flutter5/MODULES/SETTINGS_SCREEN/display_account_info.dart';
 
-import '../../SERIALIZERS/repositories/user_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'UserLod_logic/user_lod_bloc.dart';
+import '../AUTH/sp_user/sp_user_logic/sp_user_bloc.dart';
+import '../AUTH/sp_user/states_widgets/sp_user_removed_widget.dart';
 
-//to change class name = right click on className> Rename symbol
-class SettingScreen extends StatefulWidget {
-  const SettingScreen({Key? key}) : super(key: key);
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
 
   @override
-  _SettingScreenState createState() => _SettingScreenState();
+  State<SettingsScreen> createState() => SettingsScreenState();
 }
 
-class _SettingScreenState extends State<SettingScreen> {
+class SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,50 +27,17 @@ class _SettingScreenState extends State<SettingScreen> {
 
   myBody() {
     return SingleChildScrollView(
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            const AuthSessionManagerRemovedWidget(), //! listener for ending session
-
-            AboutProfilCard(),
-            Divider(),
-            cautionZone(),
-            Divider(),
-            // seeYouSoonCard()
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SpUserRemovedWidget(), //! listener for ending session
+          const DisplayAccountInfoWidget(),
+          const Divider(),
+          cautionZone(),
+          const Divider(),
+          // seeYouSoonCard()
+        ],
       ),
-    );
-  }
-
-  AboutProfilCard() {
-    var dimVar = MediaQuery.of(context).size;
-
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-          width: dimVar.width * 0.9,
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Your Profile",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25.0,
-                      ),
-                    ),
-                    sp_userAccObj_BlocProvider_STATES(),
-                  ]),
-            ),
-          )),
     );
   }
 
@@ -79,70 +45,27 @@ class _SettingScreenState extends State<SettingScreen> {
     var dimVar = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-        width: dimVar.width * 0.9,
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                caution_Text(),
-                SizedBox(height: dimVar.height * 0.02),
-                caution_tile_logout(),
-                const Divider(),
-                caution_tile_DeleteAccount(),
-              ],
-            ),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              cautionText(),
+              SizedBox(height: dimVar.height * 0.02),
+              logoutTile(),
+              const Divider(),
+              const DeleteAccountWidget(),
+              // caution_tile_DeleteAccount(),
+            ],
           ),
         ),
       ),
     );
   }
 
-//   seeYouSoonCard() {
-//     var dimVar = MediaQuery.of(context).size;
-
-// //height : dimVar.height*0.5    //to access height
-// //width : dimVar.width*0.5       //acces width
-//     return FittedBox(
-//       child: Padding(
-//         padding: const EdgeInsets.all(8.0),
-//         child: Card(
-//           elevation: 3,
-//           child: Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             crossAxisAlignment: CrossAxisAlignment.center,
-//             children: [
-//               Padding(
-//                 padding: const EdgeInsets.all(15.0),
-//                 child: Text(
-//                   'New features \ncomming soon :)',
-//                   // maxLines: 2,
-//                   // overflow: TextOverflow.ellipsis,
-//                   textAlign: TextAlign.end,
-//                   style: TextStyle(
-//                     color: Colors.pink,
-//                     // decoration: TextDecoration.none,
-//                     fontStyle: FontStyle.italic,
-//                     // fontFamily: "FontNameHere" ,
-//                     fontWeight: FontWeight.bold,
-//                     // fontWeight: FontWeight.w300,
-//                     fontSize: 17.0,
-//                   ),
-//                 ),
-//               ),
-//               Image.asset("images/waiting.jpg",
-//                   height: 200, width: dimVar.width * 0.5)
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-  caution_Text() {
+  cautionText() {
     return Text(
       "CAUTION ZONE !",
       textAlign: TextAlign.center,
@@ -154,98 +77,14 @@ class _SettingScreenState extends State<SettingScreen> {
     );
   }
 
-  caution_tile_logout() {
+  logoutTile() {
     return ListTile(
       title: Text("Sign out of app"),
       subtitle: Text("Temporarily log out of app"),
       onTap: () {
-        BlocProvider.of<AuthSessionManagerBloc>(context)
+        BlocProvider.of<SpUserBloc>(context)
             .add(RemoveProfileSessionEvent()); //!
-        BlocProvider.of<AuthSessionManagerBloc>(context)
-            .add(RemoveUserSessionEvent()); //!
-      },
-    );
-  }
-
-  caution_tile_DeleteAccount() {
-    return BlocConsumer<UserLodBloc, UserLodState>(
-      listener: (context, state) {
-        if (state is UserDeleteUserAccount_Success_State) {
-          Navigator.pop(context);
-          BlocProvider.of<AuthSessionManagerBloc>(context)
-              .add(RemoveProfileSessionEvent()); //!
-          BlocProvider.of<AuthSessionManagerBloc>(context)
-              .add(RemoveUserSessionEvent()); //!
-        } else if (state is UserDeleteUserAccount_Failure_State) {
-          Navigator.pop(context);
-          Navigator.pop(context);
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.green,
-              content: Text(
-                  "Couldn't delete account right now, please try again later"),
-            ),
-          );
-        } else if (state is UserDeleteUserAccount_Loading_State) {
-          Navigator.pop(context);
-        }
-      },
-      builder: (context, state) {
-        if (state is UserDeleteUserAccount_Loading_State) {
-          return Center(child: CircularProgressIndicator());
-        }
-        return ListTile(
-          // tileColor: Colors.,
-          title: Text(
-            "Delete your Account !!!",
-            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-          ),
-          subtitle: Text(
-              "Your account will be deleted and all your data will be lost"),
-          onTap: () {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    contentPadding: const EdgeInsets.all(14.0),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Warning!",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                              "Are you sure you want to delete your account? This can't be undone, once deleted."),
-                        ),
-                      ],
-                    ),
-                    actions: [
-                      TextButton(
-                        child: Text(
-                          "Delete permanently",
-                          style: TextStyle(color: Colors.red),
-                        ),
-                        onPressed: () {
-                          BlocProvider.of<UserLodBloc>(context)
-                              .add(UserDeleteUserAccount_ButtonPressedEvent());
-                        },
-                      )
-                    ],
-                  );
-                });
-          },
-        );
+        BlocProvider.of<SpUserBloc>(context).add(RemoveUserSessionEvent()); //!
       },
     );
   }
@@ -275,17 +114,4 @@ class _SettingScreenState extends State<SettingScreen> {
 /* -------------------------------------------------------------------------- */
 /*                                 //@ STATES                                 */
 /* -------------------------------------------------------------------------- */
-
-  sp_userAccObj_BlocProvider_STATES() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Your email : ${UserSpRepo.instance.get_user()!.email}'),
-          Text('Your number : ${UserSpRepo.instance.get_user()!.number}'),
-        ],
-      ),
-    );
-  }
 }

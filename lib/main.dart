@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter5/MODULES/COMMON/auth_session_manager_logic/auth_session_manager_bloc.dart';
-import 'package:flutter5/MODULES/LOGIN/logic/login_button_logic/login_button_bloc.dart';
-import 'package:flutter5/MODULES/Splash_stub/SplashScreen.dart';
-// import 'package:flutter5/SERIALIZERS/repositories/profile_repo.dart';
-// import 'package:flutter5/SERIALIZERS/repositories/user_repo.dart';
+import 'package:flutter5/MODULES/AUTH/DELETE_ACCOUNT/delete_account_logic/delete_account_bloc.dart';
+import 'package:flutter5/MODULES/AUTH/sp_user/sp_user_logic/sp_user_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'API_HELPER/api_services/shared_preferences_helper.dart';
-import 'MODULES/COMMON/AuthTabBar/AuthTabBarLogic/auth_tab_bar_bloc.dart';
+import 'MODULES/AUTH/LOGIN/logic/cubit/my_login_cubit.dart';
+import 'MODULES/AUTH/LOGIN/logic/login_button_logic/login_button_bloc.dart';
+import 'MODULES/AUTH/REGISTER/logic/cubit/my_register_cubit.dart';
+import 'MODULES/AUTH/REGISTER/logic/register_button_logic/register_button_bloc.dart';
+import 'MODULES/AUTH/auth_tab_bar/auth_tab_bar_logic/auth_tab_bar_bloc.dart';
+import 'MODULES/AUTH/sp_user/sp_user_logic/sp_user_bloc.dart';
+import 'MODULES/BOTTOM_BAR1/bottom_bar1_logic/bottom_bar1_bloc.dart';
 import 'MODULES/CREATE_PROFILE/edit_profile_logic/edit_profile_bloc.dart';
-import 'MODULES/LOGIN/logic/cubit/my_login_cubit.dart';
-import 'MODULES/My_BottomBar_stub/MyBottomBar_logic/my_bottom_bar_bloc.dart';
-import 'MODULES/REGISTER/logic/cubit/my_register_cubit.dart';
-import 'MODULES/REGISTER/logic/register_button_logic/register_button_bloc.dart';
-import 'MODULES/SETTINGS_SCREEN/UserLod_logic/user_lod_bloc.dart';
-import 'MODULES/Splash_stub/Splash_roles_logic/splash_roles_bloc.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:firebase_core/firebase_core.dart';
 
@@ -58,7 +55,7 @@ class _MyAppState extends State<MyApp> {
         //@ BLOCS
 
         BlocProvider(
-          create: (context) => SplashRolesBloc(),
+          create: (context) => SpUserBloc(),
         ),
         BlocProvider<LoginButtonBloc>(
           create: (context) => LoginButtonBloc(),
@@ -69,19 +66,19 @@ class _MyAppState extends State<MyApp> {
         BlocProvider<AuthTabBarBloc>(
           create: (context) => AuthTabBarBloc(),
         ),
-        BlocProvider<AuthSessionManagerBloc>(
-          create: (context) => AuthSessionManagerBloc(),
+        BlocProvider<SpUserBloc>(
+          create: (context) => SpUserBloc(),
         ),
 
         BlocProvider(
           create: (context) => EditProfileBloc(),
         ),
         BlocProvider(
-          create: (context) => MyBottomBarBloc(),
+          create: (context) => BottomBar1Bloc(),
         ),
 
         BlocProvider(
-          create: (context) => UserLodBloc(),
+          create: (context) => DeleteAccountBloc(),
         ),
       ],
 
@@ -95,7 +92,7 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: const SplashScreen()),
+          home: const SpUserWidget(isStartUp: true)),
     );
   }
 }

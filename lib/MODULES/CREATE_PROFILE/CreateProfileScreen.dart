@@ -1,12 +1,11 @@
-import 'package:flutter5/MODULES/COMMON/auth_session_manager_logic/auth_session_manager_bloc.dart';
-import 'package:flutter5/MODULES/COMMON/auth_session_manager_logic/auth_session_manager_stored_widget.dart';
-
 import '../../SERIALIZERS/models/profile.dart';
 import '../../SERIALIZERS/repositories/profile_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../SERIALIZERS/repositories/user_repo.dart';
+import '../AUTH/sp_user/sp_user_logic/sp_user_bloc.dart';
+import '../AUTH/sp_user/states_widgets/sp_user_stored_widget.dart';
 import '../WIDGETS/loader_widget.dart';
 import 'edit_profile_logic/edit_profile_bloc.dart';
 
@@ -79,7 +78,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
             // widget.isFromProfileScreen != null
             //     ? Container()
             //     :
-            AuthSessionManagerStoredWidget(), //!~ Listener
+            SpUserStoredWidget(), //!~ Listener
             SizedBox(height: dimVar.height * 0.01),
             //
             Align(
@@ -191,7 +190,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
     return BlocConsumer<EditProfileBloc, EditProfileState>(
       listener: (context, state) async {
         if (state is EditProfile_success_State) {
-          BlocProvider.of<AuthSessionManagerBloc>(context)
+          BlocProvider.of<SpUserBloc>(context)
               .add(StoreProfileSessionEvent(state.profile)); //!~
         }
       },
